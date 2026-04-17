@@ -1,11 +1,28 @@
-# Compiled class file
+# Eclipse files
+.project
+.classpath
+.settings
+/bin/
+
+# intellij files
+.idea/
+*.iml
+
+#bluej
+package.bluej
+
+*.ctxt
+
+# output files
 *.class
+
+# system files
+desktop.ini
+*.swp
+.DS_Store
 
 # Log file
 *.log
-
-# BlueJ files
-*.ctxt
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/

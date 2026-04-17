@@ -18,20 +18,23 @@ public abstract class World extends Pane {
     private Set<KeyCode> keysPressed;
     private boolean widthSet;
     private boolean heightSet;
+    private boolean initialized;
 
     public World(){
         widthSet =false;
         heightSet = false;
         keysPressed = new HashSet<KeyCode>();
         timerRunning = false;
+        initialized = false;
         widthProperty().addListener(new ChangeListener<Number>() {
             @Override
             public void changed(ObservableValue<? extends Number> observable, Number oldValue, Number newValue) {
                 if(newValue.intValue()>0){
                     widthSet = true;
                 }
-                if(widthSet&&heightSet){
+                if(widthSet&&heightSet&&!initialized){
                     onDimensionsInitialized();
+                    initialized = true;
                 }
             }
         });
@@ -41,8 +44,9 @@ public abstract class World extends Pane {
                 if(newValue.intValue()>0){
                     heightSet = true;
                 }
-                if(widthSet&&heightSet){
+                if(widthSet&&heightSet&&!initialized){
                     onDimensionsInitialized();
+                    initialized = true;
                 }
             }
         });
