@@ -9,11 +9,11 @@ public class Ball extends Actor {
     Image image;
 
     public Ball(){
-        image = new Image("file:ball.png");
+        image = new Image("/breakoutresources/ball.png");
         dx = 5;
         dy = 5;
         setImage(image);
-    }
+    };
     @Override
     public void act(long now) {
         move(dx,dy);
@@ -22,6 +22,9 @@ public class Ball extends Actor {
         }
         if(getY()<=0||(getY()+getHeight())>getWorld().getHeight()){
             dy =-dy;
+        }
+        if(getOneIntersectingObject(Paddle.class)!=null){
+            dy = -dy;
         }
     }
 }
