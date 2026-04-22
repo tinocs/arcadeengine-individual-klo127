@@ -11,7 +11,7 @@ public class Ball extends Actor {
     public Ball(){
         image = new Image("/breakoutresources/ball.png");
         dx = 5;
-        dy = 5;
+        dy = -5;
         setImage(image);
     };
     @Override
@@ -20,8 +20,13 @@ public class Ball extends Actor {
         if(getX()<=0||(getX()+getWidth())>getWorld().getWidth()){
             dx =-dx;
         }
-        if(getY()<=0||(getY()+getHeight())>getWorld().getHeight()){
+        if(getY()<=0){
             dy =-dy;
+        }
+        if((getY()+getHeight())>getWorld().getHeight()){
+            dy =-dy;
+            BallWorld world = (BallWorld) getWorld();
+            world.getScore().setValue(world.getScore().getValue() - 1000);
         }
         if(getOneIntersectingObject(Paddle.class)!=null){
             dy = -dy;
@@ -37,6 +42,8 @@ public class Ball extends Actor {
                 dx = -dx;
             }
             getWorld().remove(brick);
+            BallWorld world =(BallWorld)getWorld();
+            world.getScore().setValue(world.getScore().getValue()+100);
         }
     }
 }

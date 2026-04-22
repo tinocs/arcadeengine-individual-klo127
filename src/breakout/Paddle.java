@@ -13,10 +13,10 @@ public class Paddle extends Actor {
     @Override
     public void act(long now) {
         if(getWorld().isKeyPressed(KeyCode.LEFT)){
-            setX(getX()-6);
+            setX(getX()-8);
         }
         if(getWorld().isKeyPressed(KeyCode.RIGHT)){
-            setX(getX()+6);
+            setX(getX()+8);
         }
     }
 

@@ -19,6 +19,5 @@ public class Breakout extends Application {
         stage.setScene(scene);
         world.start();
         stage.show();
-
     }
 }
