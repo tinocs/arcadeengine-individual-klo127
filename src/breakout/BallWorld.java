@@ -8,6 +8,7 @@ import javafx.scene.input.MouseEvent;
 public class BallWorld extends World {
     private Paddle paddle;
     private Score score;
+    private Lives lives;
     int level;
     public BallWorld() {
         setPrefSize(700,500);
@@ -32,8 +33,11 @@ public class BallWorld extends World {
     public void onDimensionsInitialized() {
         score = new Score();
         score.setX(20);
-        score.setY(40);
-        getChildren().addAll(score);
+        score.setY(35);
+        lives = new Lives();
+        lives.setX(20);
+        lives.setY(65);
+        getChildren().addAll(score,lives);
         Ball ball = new Ball();
 
         add(ball);
@@ -55,6 +59,11 @@ public class BallWorld extends World {
     public Score getScore(){
         return score;
     }
+
+    public Lives getLives() {
+        return lives;
+    }
+
     public void createBrickRect(int rows, int cols){
 
         Brick b = new Brick();

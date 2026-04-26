@@ -26,7 +26,7 @@ public class Ball extends Actor {
         if((getY()+getHeight())>getWorld().getHeight()){
             dy =-dy;
             BallWorld world = (BallWorld) getWorld();
-            world.getScore().setValue(world.getScore().getValue() - 1000);
+            world.getLives().setValue(world.getLives().getValue()-1);
         }
         if(getOneIntersectingObject(Paddle.class)!=null){
             dy = -dy;
