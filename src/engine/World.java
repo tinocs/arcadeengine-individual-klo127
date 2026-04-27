@@ -102,7 +102,6 @@ public abstract class World extends Pane {
         }
         return list;
     }
-
     //Returns a list of all actors of the given class containing the given x, y
     public <A extends Actor> java.util.List<A>	getObjectsAt(double x, double y, java.lang.Class<A> cls){
         List<A> a = new ArrayList<>();

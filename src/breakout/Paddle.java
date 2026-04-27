@@ -7,7 +7,7 @@ import javafx.scene.input.KeyCode;
 public class Paddle extends Actor {
 
     public Paddle(){
-        Image image = new Image("/breakoutresources/paddle.png");
+        Image image = new Image(getClass().getResource("/breakoutresources/paddle.png").toString());
         setImage(image);
     }
     @Override

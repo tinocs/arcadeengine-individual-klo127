@@ -1,9 +1,13 @@
 package breakout;
 
+import engine.Sound;
 import engine.World;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.text.Font;
+import javafx.scene.text.Text;
 
 public class BallWorld extends World {
     private Paddle paddle;
@@ -11,6 +15,19 @@ public class BallWorld extends World {
     private Score score;
     private Lives lives;
     private int level;
+    private Image brick2;
+    private Sound won;
+    private Text message;
+
+    public boolean isOver() {
+        return isOver;
+    }
+
+    public void setOver(boolean over) {
+        isOver = over;
+    }
+
+    private boolean isOver;
 
     public Ball getBall() {
         return ball;
@@ -32,7 +49,13 @@ public class BallWorld extends World {
         setPrefSize(700,500);
         level = 1;
         isPaused = true;
-
+        brick2 = new Image(getClass().getResource("/breakoutresources/brick2.png").toString());
+        won = new Sound("ballbounceresources/game_won.wav");
+        isOver=false;
+        message = new Text("");
+        message.setFont(new Font(30));
+        message.setVisible(false);
+        getChildren().addAll(message);
     }
 
     @Override
@@ -40,13 +63,34 @@ public class BallWorld extends World {
         if(getObjects(Brick.class).isEmpty()){
             isPaused = true;
             if(level ==1){
-                createBrickRect(3,3);
+                createBrickRect(3,4,getWidth()/4,getHeight()/6);
+                createBrickRect(3,4,getWidth()*3/4,getHeight()/6);
+                createBrickRect(2,10,getWidth()/2,getHeight()/3);
                 level++;
             }else if(level==2){
-                createBrickRect(6,7);
+                createBrickRect(4,4,getWidth()/4,getHeight()/6);
+                createBrickRect(4,4,getWidth()*3/4,getHeight()/6);
+                createBrickRect(4,4,getWidth()/4,getHeight()/3);
+                createBrickRect(4,4,getWidth()*3/4,getHeight()/3);
                 level++;
+            }else if(level ==3){
+                isOver= true;
+                isPaused = true;
+                won.play();
+                level++;
+                showMessage("You Win! Press Space to Try Again!");
             }
         }
+        if (isOver && isKeyPressed(KeyCode.SPACE)) {
+            Breakout.getS().setScene(Breakout.getMainMenu());
+        }
+
+    }
+    public void showMessage(String text) {
+        message.setText(text);
+        message.setX(getWidth()/2 - message.getLayoutBounds().getWidth()/2);
+        message.setY(getHeight()/2);
+        message.setVisible(true);
     }
 
     @Override
@@ -84,20 +128,17 @@ public class BallWorld extends World {
         return lives;
     }
 
-    public void createBrickRect(int rows, int cols){
-
+    public void createBrickRect(int rows, int cols, double x, double y){
         Brick b = new Brick();
-        double x=(getWidth()-cols*b.getWidth())/2;
-        double y=getHeight()/8;
+        double sx = x-cols*b.getWidth()/2;
+        double sy = y-rows*b.getHeight()/2;
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-
                 Brick brick=new Brick();
-
-                brick.setX(j*b.getWidth()+x);
-                brick.setY(i*b.getHeight()+y);
+                brick.setX(j*b.getWidth()+sx);
+                brick.setY(i*b.getHeight()+sy);
                 if(i==0||i==rows-1||j==0||j==cols-1){
-                    brick.setImage(new Image("/breakoutresources/brick2.png"));
+                    brick.setImage(brick2);
                 }
                 add(brick);
             }
