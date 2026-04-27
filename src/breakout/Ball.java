@@ -1,7 +1,10 @@
 package breakout;
 
 import engine.Actor;
+import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 
 public class Ball extends Actor {
     private int dx;
@@ -16,34 +19,43 @@ public class Ball extends Actor {
     };
     @Override
     public void act(long now) {
-        move(dx,dy);
-        if(getX()<=0||(getX()+getWidth())>getWorld().getWidth()){
-            dx =-dx;
-        }
-        if(getY()<=0){
-            dy =-dy;
-        }
-        if((getY()+getHeight())>getWorld().getHeight()){
-            dy =-dy;
-            BallWorld world = (BallWorld) getWorld();
-            world.getLives().setValue(world.getLives().getValue()-1);
-        }
-        if(getOneIntersectingObject(Paddle.class)!=null){
-            dy = -dy;
-        }
-        Brick brick = getOneIntersectingObject(Brick.class);
-        if(brick!=null){
-            if(getX()>=brick.getX()&&getX()<=(brick.getX()+brick.getWidth())){
-                dy= -dy;
-            }else if(getY()>=brick.getY()&&getY()<=(brick.getY()+brick.getHeight())){
-                dx= -dx;
-            }else{
-                dy= -dy;
-                dx = -dx;
+        BallWorld w = (BallWorld) getWorld();
+        if(w.isPaused()) {
+            if (w.isKeyPressed(KeyCode.SPACE)) {
+                w.setPaused(false);
             }
-            getWorld().remove(brick);
-            BallWorld world =(BallWorld)getWorld();
-            world.getScore().setValue(world.getScore().getValue()+100);
+        }else{
+            move(dx,dy);
+            if(getX()<=0||(getX()+getWidth())>getWorld().getWidth()){
+                dx =-dx;
+            }
+            if(getY()<=0){
+                dy =-dy;
+            }
+            if((getY()+getHeight())>getWorld().getHeight()){
+                dy =-dy;
+                BallWorld world = (BallWorld) getWorld();
+                world.getLives().setValue(world.getLives().getValue()-1);
+                ((BallWorld) getWorld()).setPaused(true);
+            }
+            if(getOneIntersectingObject(Paddle.class)!=null){
+                dy = -dy;
+            }
+            Brick brick = getOneIntersectingObject(Brick.class);
+            if(brick!=null){
+                if(getX()>=brick.getX()&&getX()<=(brick.getX()+brick.getWidth())){
+                    dy= -dy;
+                }else if(getY()>=brick.getY()&&getY()<=(brick.getY()+brick.getHeight())){
+                    dx= -dx;
+                }else{
+                    dy= -dy;
+                    dx = -dx;
+                }
+                getWorld().remove(brick);
+                BallWorld world =(BallWorld)getWorld();
+                world.getScore().setValue(world.getScore().getValue()+100);
+            }
         }
+
     }
 }

@@ -7,18 +7,38 @@ import javafx.scene.input.MouseEvent;
 
 public class BallWorld extends World {
     private Paddle paddle;
+    private Ball ball;
     private Score score;
     private Lives lives;
-    int level;
+    private int level;
+
+    public Ball getBall() {
+        return ball;
+    }
+    public boolean isPaused() {
+        return isPaused;
+    }
+
+    public void setPaused(boolean paused) {
+        isPaused = paused;
+    }
+
+    public Paddle getPaddle() {
+        return paddle;
+    }
+
+    private boolean isPaused;
     public BallWorld() {
         setPrefSize(700,500);
         level = 1;
+        isPaused = true;
 
     }
 
     @Override
     public void act(long now) {
         if(getObjects(Brick.class).isEmpty()){
+            isPaused = true;
             if(level ==1){
                 createBrickRect(3,3);
                 level++;
@@ -38,7 +58,7 @@ public class BallWorld extends World {
         lives.setX(20);
         lives.setY(65);
         getChildren().addAll(score,lives);
-        Ball ball = new Ball();
+        ball = new Ball();
 
         add(ball);
         ball.setX(getWidth()/2);
