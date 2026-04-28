@@ -21,8 +21,8 @@ public class Ball extends Actor {
 
     public Ball(){
         image = new Image(getClass().getResource("/breakoutresources/ball.png").toString());
-        dx = 5;
-        dy = -5;
+        dx = 4;
+        dy = -4;
         setImage(image);
         bounce = new Sound("ballbounceresources/ball_bounce.wav");
         hit = new Sound("ballbounceresources/brick_hit.wav");
@@ -39,9 +39,15 @@ public class Ball extends Actor {
             }
         }else if(!w.isOver()){
             move(dx,dy);
-            if(getX()<=0||(getX()+getWidth())>getWorld().getWidth()){
+            if(getX()<=0){
                 bounce.play();
-                dx =-dx;
+                setX(0);
+                dx =Math.abs(dx);
+            }
+            if((getX()+getWidth())>getWorld().getWidth()){
+                setX(getWorld().getWidth()-getWidth());
+                bounce.play();
+                dx =-Math.abs(dx);
             }
             if(getY()<=0){
                 bounce.play();

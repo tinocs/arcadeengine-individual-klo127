@@ -1,9 +1,11 @@
 package breakout;
 
+import engine.Actor;
 import engine.Sound;
 import engine.World;
 import javafx.event.EventHandler;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
@@ -18,6 +20,15 @@ public class BallWorld extends World {
     private Image brick2;
     private Sound won;
     private Text message;
+
+
+
+    private Image backgroundImage;
+    private ImageView background;
+
+    public Image getBImage() {
+        return backgroundImage;
+    }
 
     public boolean isOver() {
         return isOver;
@@ -52,10 +63,7 @@ public class BallWorld extends World {
         brick2 = new Image(getClass().getResource("/breakoutresources/brick2.png").toString());
         won = new Sound("ballbounceresources/game_won.wav");
         isOver=false;
-        message = new Text("");
-        message.setFont(new Font(30));
-        message.setVisible(false);
-        getChildren().addAll(message);
+
     }
 
     @Override
@@ -82,6 +90,7 @@ public class BallWorld extends World {
             }
         }
         if (isOver && isKeyPressed(KeyCode.SPACE)) {
+            stop();
             Breakout.getS().setScene(Breakout.getMainMenu());
         }
 
@@ -92,38 +101,53 @@ public class BallWorld extends World {
         message.setY(getHeight()/2);
         message.setVisible(true);
     }
-
+    public ImageView getB(){
+        return background;
+    }
     @Override
     public void onDimensionsInitialized() {
+
+        backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toString());
+        background = new ImageView(backgroundImage);
+        background.setX(-(backgroundImage.getWidth() - getWidth()) / 2);
         score = new Score();
         score.setX(20);
         score.setY(35);
         lives = new Lives();
         lives.setX(20);
         lives.setY(65);
-        getChildren().addAll(score,lives);
+        getChildren().addAll(background, score, lives);
         ball = new Ball();
-
+        ball.setX(getWidth() / 2);
+        ball.setY(getHeight() / 2);
+        message = new Text("");
+        message.setFont(new Font(30));
+        message.setVisible(false);
+        getChildren().addAll(message);
         add(ball);
-        ball.setX(getWidth()/2);
-        ball.setY(getHeight()/2);
 
         paddle = new Paddle();
         add(paddle);
-        paddle.setX(getWidth()/2-paddle.getWidth()/2);
-        paddle.setY(getHeight()*9/10-paddle.getHeight()/2);
+        paddle.setX(getWidth() / 2 - paddle.getWidth() / 2);
+        paddle.setY(getHeight() * 9 / 10 - paddle.getHeight() / 2);
         this.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                paddle.setX(event.getX()-paddle.getWidth()/2);
+                paddle.setX(event.getX() - paddle.getWidth() / 2);
             }
         });
-
     }
     public Score getScore(){
         return score;
     }
+    public void scroll(double dx) {
+        for (Actor a : getObjects(Actor.class)) {
+            a.setX(a.getX() - dx);
 
+        }
+
+        background.setX(background.getX() - dx);
+    }
     public Lives getLives() {
         return lives;
     }
