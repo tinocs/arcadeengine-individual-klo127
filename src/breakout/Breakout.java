@@ -47,8 +47,8 @@ public class Breakout extends Application {
         });
         Image menuImage = new Image(getClass().getResource("/breakoutresources/menu.png").toString(),700,500,false,true);
         ImageView menuBackground = new ImageView(menuImage);
-        playButton.setLayoutX(menuImage.getWidth()/2-120);
-        playButton.setLayoutY(menuImage.getHeight()*0.82-10);
+        playButton.setLayoutX(menuImage.getWidth()/2-playButton.getPrefWidth() /2);
+        playButton.setLayoutY(menuImage.getHeight()*0.82);
         menuRoot.getChildren().addAll(menuBackground,playButton);
 
 

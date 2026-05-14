@@ -68,27 +68,27 @@ public class BallWorld extends World {
 
     @Override
     public void act(long now) {
-        if(getObjects(Brick.class).isEmpty()){
-            isPaused = true;
-            if(level ==1){
-                createBrickRect(3,4,getWidth()/4,getHeight()/6);
-                createBrickRect(3,4,getWidth()*3/4,getHeight()/6);
-                createBrickRect(2,10,getWidth()/2,getHeight()/3);
-                level++;
-            }else if(level==2){
-                createBrickRect(4,4,getWidth()/4,getHeight()/6);
-                createBrickRect(4,4,getWidth()*3/4,getHeight()/6);
-                createBrickRect(4,4,getWidth()/4,getHeight()/3);
-                createBrickRect(4,4,getWidth()*3/4,getHeight()/3);
-                level++;
-            }else if(level ==3){
-                isOver= true;
-                isPaused = true;
-                won.play();
-                level++;
-                showMessage("You Win! Press Space to Try Again!");
-            }
-        }
+//        if(getObjects(Brick.class).isEmpty()){
+//            isPaused = true;
+//            if(level ==1){
+//                createBrickRect(3,4,getWidth()/4,getHeight()/6);
+//                createBrickRect(3,4,getWidth()*3/4,getHeight()/6);
+//                createBrickRect(2,10,getWidth()/2,getHeight()/3);
+//                level++;
+//            }else if(level==2){
+//                createBrickRect(4,4,getWidth()/4,getHeight()/6);
+//                createBrickRect(4,4,getWidth()*3/4,getHeight()/6);
+//                createBrickRect(4,4,getWidth()/4,getHeight()/3);
+//                createBrickRect(4,4,getWidth()*3/4,getHeight()/3);
+//                level++;
+//            }else if(level ==3){
+//                isOver= true;
+//                isPaused = true;
+//                won.play();
+//                level++;
+//                showMessage("You Win! Press Space to Try Again!");
+//            }
+//        }
         if (isOver && isKeyPressed(KeyCode.SPACE)) {
             stop();
             Breakout.getS().setScene(Breakout.getMainMenu());
@@ -107,7 +107,7 @@ public class BallWorld extends World {
     @Override
     public void onDimensionsInitialized() {
 
-        backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toString());
+        backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toString(),900,500,true,true);
         background = new ImageView(backgroundImage);
         background.setX(-(backgroundImage.getWidth() - getWidth()) / 2);
         score = new Score();
@@ -124,7 +124,7 @@ public class BallWorld extends World {
         message.setFont(new Font(30));
         message.setVisible(false);
         getChildren().addAll(message);
-        add(ball);
+
 
         paddle = new Paddle();
         add(paddle);

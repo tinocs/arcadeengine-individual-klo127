@@ -8,7 +8,7 @@ import javafx.scene.input.KeyCode;
 public class Paddle extends Actor {
     int dx;
     public Paddle(){
-        Image image = new Image(getClass().getResource("/breakoutresources/paddle.png").toString());
+        Image image = new Image(getClass().getResource("/breakoutresources/spaceship.png").toString(),100,50,false,true);
         setImage(image);
         dx = 8;
     }
