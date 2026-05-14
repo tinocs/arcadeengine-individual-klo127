@@ -142,8 +142,7 @@ public class BallWorld extends World {
     }
     public void scroll(double dx) {
         for (Actor a : getObjects(Actor.class)) {
-            a.setX(a.getX() - dx);
-
+            a.setX(a.getX()-dx);
         }
 
         background.setX(background.getX() - dx);
