@@ -1,12 +1,16 @@
 package breakout;
 
 import engine.Actor;
+import javafx.animation.AnimationTimer;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
 public class Spaceship extends Actor {
     int dx;
+    long lastShot = 0;
+    long cooldown = 400000000;
+    private AnimationTimer timer;
     public Spaceship(){
         Image image = new Image(getClass().getResource("/breakoutresources/spaceship.png").toString(),100,50,false,true);
         setImage(image);
@@ -17,40 +21,30 @@ public class Spaceship extends Actor {
         SpaceWorld w = (SpaceWorld) getWorld();
         ImageView b = w.getB();
         Image bi = w.getBImage();
-
         if(getWorld().isKeyPressed(KeyCode.LEFT)){
             if(getX()-dx>=0){
                 setX(getX() - dx);
             }
             if(b.getX()+dx<=0&&(b.getX()-dx>=(w.getWidth()-bi.getWidth())||getX()+getWidth()/2<=w.getWidth()/2)){
-
                 w.scroll(-dx);
-
             }
-
         }
         if(getWorld().isKeyPressed(KeyCode.RIGHT)){
             if(getX()+getWidth()+dx<=w.getWidth()){
                 setX(getX() + dx);
             }
-
             if((b.getX()+dx<=0||getX()+getWidth()/2>=w.getWidth()/2)&&b.getX()-dx>=(w.getWidth()-bi.getWidth())){
-
                 w.scroll(dx);
-
             }
         }
-        if (getWorld().isKeyPressed(KeyCode.SPACE) ) {
-            Bullet bullet = new Bullet();
-
-            bullet.setX(getX() + getWidth()/2 - bullet.getWidth()/2);
-            bullet.setY(getY() - bullet.getHeight());
-
-            w.add(bullet);
+        if (getWorld().isKeyPressed(KeyCode.SPACE)) {
+            if(now-lastShot >cooldown) {
+                Bullet bullet = new Bullet();
+                bullet.setX(getX()+getWidth()/2-bullet.getWidth()/2);
+                bullet.setY(getY()-bullet.getHeight());
+                w.add(bullet);
+                lastShot = now;
+            }
         }
-
-
     }
-
-
 }

@@ -68,6 +68,15 @@ public class SpaceWorld extends World {
 
     @Override
     public void act(long now) {
+        if(getObjects(Brick.class).isEmpty()){
+            isPaused = true;
+            if(level ==1) {
+                createAlienRect(3, 4, getWidth() / 4, getHeight() / 6);
+                createAlienRect(3, 4, getWidth() * 3 / 4, getHeight() / 6);
+                createAlienRect(2, 10, getWidth() / 2, getHeight() / 2);
+                level++;
+            }
+        }
 //        if(getObjects(Brick.class).isEmpty()){
 //            isPaused = true;
 //            if(level ==1){
@@ -151,19 +160,23 @@ public class SpaceWorld extends World {
         return lives;
     }
 
-    public void createBrickRect(int rows, int cols, double x, double y){
-        Brick b = new Brick();
-        double sx = x-cols*b.getWidth()/2;
-        double sy = y-rows*b.getHeight()/2;
+    public void createAlienRect(int rows, int cols, double x, double y){
+        Alien a = new Alien();
+        double gapX = 15;
+        double gapY = 15;
+        double totalWidth=cols*a.getWidth()+(cols-1)*gapX;
+        double totalHeight=rows*a.getHeight()+(rows-1)*gapY;
+        double sx = x - totalWidth / 2;
+        double sy = y - totalHeight / 2;
         for(int i=0;i<rows;i++){
             for(int j=0;j<cols;j++){
-                Brick brick=new Brick();
-                brick.setX(j*b.getWidth()+sx);
-                brick.setY(i*b.getHeight()+sy);
-                if(i==0||i==rows-1||j==0||j==cols-1){
-                    brick.setImage(brick2);
-                }
-                add(brick);
+                Alien alien=new Alien();
+                alien.setX(j*(a.getWidth()+gapX)+sx);
+                alien.setY(i*(a.getHeight()+gapY)+sy);
+//                if(i==0||i==rows-1||j==0||j==cols-1){
+//                    brick.setImage(brick2);
+//                }
+                add(alien);
             }
         }
     }
