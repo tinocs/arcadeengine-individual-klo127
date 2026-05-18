@@ -3,10 +3,8 @@ package breakout;
 import engine.Actor;
 import engine.Sound;
 import javafx.animation.FadeTransition;
-import javafx.event.EventHandler;
 import javafx.scene.image.Image;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.util.Duration;
 
 public class Ball extends Actor {
@@ -31,7 +29,7 @@ public class Ball extends Actor {
     };
     @Override
     public void act(long now) {
-        BallWorld w = (BallWorld) getWorld();
+        SpaceWorld w = (SpaceWorld) getWorld();
         if(w.isPaused()) {
             if (w.isKeyPressed(KeyCode.SPACE)&&!w.isOver()) {
                 dy=-5;
@@ -56,9 +54,9 @@ public class Ball extends Actor {
             if((getY()+getHeight())>getWorld().getHeight()){
                 loseLife.play();
                 dy =-dy;
-                BallWorld world = (BallWorld) getWorld();
+                SpaceWorld world = (SpaceWorld) getWorld();
                 world.getLives().setValue(world.getLives().getValue()-1);
-                ((BallWorld) getWorld()).setPaused(true);
+                ((SpaceWorld) getWorld()).setPaused(true);
                 if(world.getLives().getValue()==0){
                     lost.play();
                     world.setOver(true);
@@ -66,7 +64,7 @@ public class Ball extends Actor {
                     world.showMessage("You Ran Out of Lives. Press Space to Try Again.");
                 }
             }
-            if(getOneIntersectingObject(Paddle.class)!=null){
+            if(getOneIntersectingObject(Spaceship.class)!=null){
                 bounce.play();
                 dy = -dy;
             }
@@ -87,7 +85,7 @@ public class Ball extends Actor {
                     getWorld().remove(brick);
                 });
                 fade.play();
-                BallWorld world =(BallWorld)getWorld();
+                SpaceWorld world =(SpaceWorld)getWorld();
                 world.getScore().setValue(world.getScore().getValue()+100);
             }
         }

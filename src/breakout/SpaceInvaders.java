@@ -7,13 +7,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
-public class Breakout extends Application {
+public class SpaceInvaders extends Application {
 
 
     private static Scene mainMenu;
-    private BallWorld world;
+    private SpaceWorld world;
     private static Stage s;
     public static Stage getS() {
         return s;
@@ -28,18 +29,18 @@ public class Breakout extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         s=stage;
-        stage.setTitle("Breakout");
+        stage.setTitle("Space Invaders");
 
         Pane menuRoot = new Pane();
-        Button playButton = new Button("Play!");
-        playButton.setFont(new Font(20));
-        playButton.setPrefWidth(200);
+        Button playButton = new Button("Play");
+        playButton.setFont(Font.font("Verdana", FontWeight.BOLD, 28));
+        playButton.setPrefWidth(210);
         playButton.setOnAction(event -> {
             if(world!=null){
                 world.stop();
             }
             BorderPane levelOneRoot = new BorderPane();
-            world = new BallWorld();
+            world = new SpaceWorld();
             levelOneRoot.setCenter(world);
             Scene levels = new Scene(levelOneRoot);
             stage.setScene(levels);
@@ -48,7 +49,7 @@ public class Breakout extends Application {
         Image menuImage = new Image(getClass().getResource("/breakoutresources/menu.png").toString(),700,500,false,true);
         ImageView menuBackground = new ImageView(menuImage);
         playButton.setLayoutX(menuImage.getWidth()/2-playButton.getPrefWidth() /2);
-        playButton.setLayoutY(menuImage.getHeight()*0.82);
+        playButton.setLayoutY(menuImage.getHeight()*0.7);
         menuRoot.getChildren().addAll(menuBackground,playButton);
 
 

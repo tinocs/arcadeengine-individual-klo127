@@ -5,16 +5,16 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 
-public class Paddle extends Actor {
+public class Spaceship extends Actor {
     int dx;
-    public Paddle(){
+    public Spaceship(){
         Image image = new Image(getClass().getResource("/breakoutresources/spaceship.png").toString(),100,50,false,true);
         setImage(image);
         dx = 8;
     }
     @Override
     public void act(long now) {
-        BallWorld w = (BallWorld) getWorld();
+        SpaceWorld w = (SpaceWorld) getWorld();
         ImageView b = w.getB();
         Image bi = w.getBImage();
 
@@ -40,9 +40,13 @@ public class Paddle extends Actor {
 
             }
         }
-        if(w.isPaused()){
-            w.getBall().setX(getX()+getWidth()/2-w.getBall().getWidth()/2);
-            w.getBall().setY(getY()-w.getBall().getHeight());
+        if (getWorld().isKeyPressed(KeyCode.SPACE) ) {
+            Bullet bullet = new Bullet();
+
+            bullet.setX(getX() + getWidth()/2 - bullet.getWidth()/2);
+            bullet.setY(getY() - bullet.getHeight());
+
+            w.add(bullet);
         }
 
 

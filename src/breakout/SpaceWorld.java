@@ -11,8 +11,8 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 
-public class BallWorld extends World {
-    private Paddle paddle;
+public class SpaceWorld extends World {
+    private Spaceship spaceship;
     private Ball ball;
     private Score score;
     private Lives lives;
@@ -51,12 +51,12 @@ public class BallWorld extends World {
         isPaused = paused;
     }
 
-    public Paddle getPaddle() {
-        return paddle;
+    public Spaceship getPaddle() {
+        return spaceship;
     }
 
     private boolean isPaused;
-    public BallWorld() {
+    public SpaceWorld() {
         setPrefSize(700,500);
         level = 1;
         isPaused = true;
@@ -91,7 +91,7 @@ public class BallWorld extends World {
 //        }
         if (isOver && isKeyPressed(KeyCode.SPACE)) {
             stop();
-            Breakout.getS().setScene(Breakout.getMainMenu());
+            SpaceInvaders.getS().setScene(SpaceInvaders.getMainMenu());
         }
 
     }
@@ -107,7 +107,7 @@ public class BallWorld extends World {
     @Override
     public void onDimensionsInitialized() {
 
-        backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toString(),900,500,true,true);
+        backgroundImage = new Image(getClass().getResource("/breakoutresources/background.png").toString(),1000,500,true,true);
         background = new ImageView(backgroundImage);
         background.setX(-(backgroundImage.getWidth() - getWidth()) / 2);
         score = new Score();
@@ -126,14 +126,14 @@ public class BallWorld extends World {
         getChildren().addAll(message);
 
 
-        paddle = new Paddle();
-        add(paddle);
-        paddle.setX(getWidth() / 2 - paddle.getWidth() / 2);
-        paddle.setY(getHeight() * 9 / 10 - paddle.getHeight() / 2);
+        spaceship = new Spaceship();
+        add(spaceship);
+        spaceship.setX(getWidth() / 2 - spaceship.getWidth() / 2);
+        spaceship.setY(getHeight() * 9 / 10 - spaceship.getHeight() / 2);
         this.setOnMouseMoved(new EventHandler<MouseEvent>() {
             @Override
             public void handle(MouseEvent event) {
-                paddle.setX(event.getX() - paddle.getWidth() / 2);
+                spaceship.setX(event.getX() - spaceship.getWidth() / 2);
             }
         });
     }
